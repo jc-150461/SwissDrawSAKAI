@@ -43,12 +43,27 @@ namespace SwissDraw.Tests
             persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
 
             int[] result = Match.GetKeyArray(persons);
+            Assert.AreEqual(6, result.Length);
             Assert.AreEqual(1,result[0]);
             Assert.AreEqual(2,result[1]);
             Assert.AreEqual(3,result[2]);
             Assert.AreEqual(4,result[3]);
             Assert.AreEqual(5,result[4]);
             Assert.AreEqual(6,result[5]);
+        }
+
+        [TestMethod()]
+        public void GetMinimumKeyTest()
+        {
+            int[] keys = { 1, 2, 3, 4, 5, 6 };
+            Match[] matches1 = new Match[0];
+            Match[] matches2 = new Match[1];
+            matches2[0] = new Match(1, 2);
+
+            var result1 = Match.GetMinimumKey(keys,matches1);
+            Assert.AreEqual(1, result1);
+            var result2 = Match.GetMinimumKey(keys, matches2);
+            Assert.AreEqual(3, result2);
         }
     }
 }

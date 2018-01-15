@@ -45,7 +45,7 @@ namespace SwissDraw
             for (int i = 0; i < matchCount; i++)
             {
                 // 最小のくじ番号を取得する(使われていないこと)
-                int minKey = getMinimumKey(keys, matches);
+                int minKey = GetMinimumKey(keys, matches);
 
                 // 対応する対戦相手のくじ番号を取得する（使われていない、対戦していない、同じチームじゃない、勝ち数が同じ）
                 int versusKey = getVersusKey1(minKey, keys, matches, results);
@@ -69,9 +69,44 @@ namespace SwissDraw
         }
 
         // 最小のくじ番号を取得する(使われていないこと)
-        private static int getMinimumKey(int[] keys, Match[] matches)
+        public static int GetMinimumKey(int[] keys, Match[] matches)
         {
-            throw new NotImplementedException();
+            int result = 100000;
+            foreach (int i in keys)
+            {
+                if(containsKey(matches,i) == false)
+                {
+                    if (i < result)
+                    {
+                        result = i;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static bool containsKey(Match[] matches, int i)
+        {
+            foreach(Match m in matches)
+            {
+                if (containsKey(m, i) == true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private static bool containsKey(Match m, int i)
+        {
+            if(m.person1 == i)
+            {
+                return true;
+            }
+            if (m.person2 == i)
+            {
+                return true;
+            }
+            return false;
         }
 
         // 2つの配列をマージして1つにする
