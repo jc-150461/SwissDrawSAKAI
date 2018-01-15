@@ -41,6 +41,7 @@
             this.AddPerson.TabIndex = 0;
             this.AddPerson.Text = "参加者登録";
             this.AddPerson.UseVisualStyleBackColor = true;
+            this.AddPerson.Click += new System.EventHandler(this.AddPerson_Click);
             // 
             // MakeMatch
             // 
