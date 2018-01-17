@@ -107,7 +107,8 @@ namespace SwissDraw
 
         // 対応する対戦相手のくじ番号を取得する
         //（使われていない、対戦していない、同じチームじゃない、勝ち数が同じ）
-        private static int getVersusKey1(int minKey, int[][] splittedKeys, Match[] matches, Dictionary<int, Person> persons, Match[] results)
+        private static int getVersusKey1(int minKey, int[][] splittedKeys, Match[] matches, 
+            Dictionary<int, Person> persons, Match[] results)
         {
             int i = 0;
             bool flag = true;
@@ -124,11 +125,66 @@ namespace SwissDraw
             }
             while(i<= splittedKeys.Length)
             {
-                // TODO : Write Logic
-
+                foreach(int key in splittedKeys[i])
+                {
+                    if(i != minKey)
+                    {
+                        if(containsKey(matches,i) == false)
+                        {
+                            if(isMatched(results,i, minKey) == false)
+                            {
+                                if(isSameGroup(persons,i, minKey) == false)
+                                {
+                                    return key;
+                                }
+                            }
+                        }
+                    }
+                }
+                i++;
             }
+            return -1;
 
-            throw new NotImplementedException();
+        }
+
+        private static bool isSameGroup(Dictionary<int, Person> persons, int i, int j)
+        {
+            String iTeam = persons[i].PersonGroup;
+            String jTeam = persons[j].PersonGroup;
+            return iTeam.Equals(jTeam);
+        }
+
+        // resultsの中に、iとjの対戦があればtrueを返す
+        private static bool isMatched(Match[] results, int i, int j)
+        {
+            foreach(Match m in results)
+            {
+                if(isMatched(m,i,j)== true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // mがiとjの対戦ならtrueを返す
+        private static bool isMatched(Match m, int i, int j)
+        {
+            if (m.person1 == i)
+            {
+                if (m.person2 == j)
+                {
+                    return true;
+                }
+            }
+            if (m.person2 == i)
+            {
+                if (m.person1 == j)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         // 指定されたkeyの勝ち数を調べる
