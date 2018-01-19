@@ -66,6 +66,29 @@ namespace SwissDraw
             return matches;
         }
 
+        // 「対戦していない」「同じチームじゃない」で対戦
+        public static Match[] MakeMatch1(int matchCount, int[][] SplittedKeys, Dictionary<int, Person> persons, Match[] results)
+        {
+            Match[] matches = new Match[matchCount];
+
+            for (int i = 0; i < matchCount; i++)
+            {
+                // 最小のくじ番号を取得する(使われていないこと)
+                int minKey = GetMinimumKey(SplittedKeys, matches);
+
+                // 対応する対戦相手のくじ番号を取得する（使われていない、対戦していない、同じチームじゃない、勝ち数が同じ）
+                int versusKey = getVersusKey2(minKey, SplittedKeys, matches, persons, results);
+
+                // versusKey<0なら、対戦相手は見つからなかったため、nullを返す
+                if (versusKey < 0)
+                {
+                    return null;
+                }
+                //対戦を保存する
+                matches[i] = new Match(minKey, versusKey);
+            }
+            return matches;
+        }
 
         // 勝ち数の多いほうから順番に、勝ち数が同じ人のIDを配列にまとめる
         public static int[][] splitPersons(Dictionary<int, Person> persons, Match[] results)
@@ -82,12 +105,10 @@ namespace SwissDraw
                     maxWinCount = wCount;
                 }
             }
-            int[][] result = new int[maxWinCount + 1][];
-            for (int i = 0; i <= maxWinCount; i++)
-            {
-                result[i] = makePersonArray(maxWinCount - i, winCountDic);
-            }
-            return result;
+
+            // TODO : NOT IMPREMENTED
+            throw new NotImplementedException();
+
         }
 
         // winCountDicの中で、勝数がvの要素の配列を生成する
@@ -107,7 +128,46 @@ namespace SwissDraw
 
         // 対応する対戦相手のくじ番号を取得する
         //（使われていない、対戦していない、同じチームじゃない、勝ち数が同じ）
-        private static int getVersusKey1(int minKey, int[][] splittedKeys, Match[] matches,
+        public static int getVersusKey1(int minKey, int[][] splittedKeys, Match[] matches,
+            Dictionary<int, Person> persons, Match[] results)
+        {
+            int i = 0;
+            bool flag = true;
+            while (flag == true)
+            {
+                if (splittedKeys[i].Contains(minKey) == true)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            
+                foreach (int key in splittedKeys[i])
+                {
+                    if (i != minKey)
+                    {
+                        if (containsKey(matches, i) == false)
+                        {
+                            if (isMatched(results, i, minKey) == false)
+                            {
+                                if (isSameGroup(persons, i, minKey) == false)
+                                {
+                                    return key;
+                                }
+                            }
+                        }
+                    }
+                i++;
+            }
+            return -1;
+        }
+
+        // 対応する対戦相手のくじ番号を取得する
+        //（使われていない、対戦していない、同じチームじゃない、勝ち数無視）
+        public static int getVersusKey2(int minKey, int[][] splittedKeys, Match[] matches,
             Dictionary<int, Person> persons, Match[] results)
         {
             int i = 0;
@@ -146,6 +206,7 @@ namespace SwissDraw
             return -1;
         }
 
+        // 同じグループか調べる
         private static bool isSameGroup(Dictionary<int, Person> persons, int i, int j)
         {
             String iTeam = persons[i].PersonGroup;
@@ -154,16 +215,10 @@ namespace SwissDraw
         }
 
         // resultsの中に、iとjの対戦があればtrueを返す
-        private static bool isMatched(Match[] results, int i, int j)
+        public static bool isMatched(Match[] results, int i, int j)
         {
-            foreach (Match m in results)
-            {
-                if (isMatched(m, i, j) == true)
-                {
-                    return true;
-                }
-            }
-            return false;
+            // TODO : NOT IMPREMENTED
+            throw new NotImplementedException();
         }
 
         // mがiとjの対戦ならtrueを返す
@@ -187,7 +242,7 @@ namespace SwissDraw
         }
 
         // 指定されたkeyの勝ち数を調べる
-        private static int getWinCount(int key, Match[] results)
+        public static int getWinCount(int key, Match[] results)
         {
             int winCount = 0;
             foreach (Match result in results)
@@ -200,6 +255,7 @@ namespace SwissDraw
             return winCount;
         }
 
+        // keyが勝っていればtrueを返す
         private static Boolean checkWin(int key, Match result)
         {
             if (containsKey(result, key) == true)
@@ -224,35 +280,16 @@ namespace SwissDraw
         }
 
         // 最小のくじ番号を取得する(使われていないこと)
-        private static int GetMinimumKey(int[][] splittedKeys, Match[] matches)
+        public static int GetMinimumKey(int[][] splittedKeys, Match[] matches)
         {
-            int minKey = 100000;
-            foreach (int[] a in splittedKeys)
-            {
-                foreach (int b in a)
-                {
-                    if (minKey > b)
-                    {
-                        if (containsKey(matches, b) == false)
-                        {
-                            minKey = b;
-                        }
-                    }
-                }
-            }
-            return minKey;
+            // TODO : NOT IMPREMENTED
+            throw new NotImplementedException();
         }
 
-        private static bool containsKey(Match[] matches, int i)
+        public static bool containsKey(Match[] matches, int i)
         {
-            foreach (Match m in matches)
-            {
-                if (containsKey(m, i) == true)
-                {
-                    return true;
-                }
-            }
-            return false;
+            // TODO : NOT IMPREMENTED
+            throw new NotImplementedException();
         }
         private static bool containsKey(Match m, int i)
         {
@@ -270,7 +307,7 @@ namespace SwissDraw
         // 2つの配列をマージして1つにする
         public static Match[] MergeMatch(Match[] results1, Match[] results2)
         {
-            // TODO : Write Logic
+            // TODO : NOT IMPREMENTED
             throw new NotImplementedException();
         }
 
