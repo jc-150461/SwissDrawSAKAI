@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /SwissDraw/Match - コピー.cs
+/SwissDraw/Match2.cs
+/SwissDrawTests/Match2Tests.cs

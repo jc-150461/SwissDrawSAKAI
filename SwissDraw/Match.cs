@@ -67,7 +67,7 @@ namespace SwissDraw
         }
 
         // 「対戦していない」「同じチームじゃない」で対戦
-        public static Match[] MakeMatch1(int matchCount, int[][] SplittedKeys, Dictionary<int, Person> persons, Match[] results)
+        public static Match[] MakeMatch2(int matchCount, int[][] SplittedKeys, Dictionary<int, Person> persons, Match[] results)
         {
             Match[] matches = new Match[matchCount];
 
