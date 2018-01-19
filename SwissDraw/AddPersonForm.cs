@@ -10,18 +10,11 @@ using System.Windows.Forms;
 
 namespace SwissDraw
 {
-    public partial class Form1 : Form
+    public partial class AddPersonForm : Form
     {
-        public Form1()
+        public AddPersonForm()
         {
             InitializeComponent();
-        }
-
-        private void AddPerson_Click(object sender, EventArgs e)
-        {
-            var apf = new AddPersonForm();
-            apf.Visible = true;
-            this.Visible = false;
         }
     }
 }

@@ -28,47 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.AddPerson = new System.Windows.Forms.Button();
+            this.MakeMatch = new System.Windows.Forms.Button();
+            this.ViewCalc = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // AddPerson
             // 
-            this.button1.Location = new System.Drawing.Point(40, 10);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 60);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "参加者登録";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AddPerson.Location = new System.Drawing.Point(40, 10);
+            this.AddPerson.Name = "AddPerson";
+            this.AddPerson.Size = new System.Drawing.Size(200, 60);
+            this.AddPerson.TabIndex = 0;
+            this.AddPerson.Text = "参加者登録";
+            this.AddPerson.UseVisualStyleBackColor = true;
+            this.AddPerson.Click += new System.EventHandler(this.AddPerson_Click);
             // 
-            // button2
+            // MakeMatch
             // 
-            this.button2.Location = new System.Drawing.Point(40, 87);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(200, 60);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "対戦組合せ開始";
-            this.button2.UseVisualStyleBackColor = true;
+            this.MakeMatch.Location = new System.Drawing.Point(40, 87);
+            this.MakeMatch.Name = "MakeMatch";
+            this.MakeMatch.Size = new System.Drawing.Size(200, 60);
+            this.MakeMatch.TabIndex = 1;
+            this.MakeMatch.Text = "対戦組合せ開始";
+            this.MakeMatch.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // ViewCalc
             // 
-            this.button3.Location = new System.Drawing.Point(40, 166);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(200, 60);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "点数計算";
-            this.button3.UseVisualStyleBackColor = true;
+            this.ViewCalc.Location = new System.Drawing.Point(40, 166);
+            this.ViewCalc.Name = "ViewCalc";
+            this.ViewCalc.Size = new System.Drawing.Size(200, 60);
+            this.ViewCalc.TabIndex = 2;
+            this.ViewCalc.Text = "点数計算";
+            this.ViewCalc.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ViewCalc);
+            this.Controls.Add(this.MakeMatch);
+            this.Controls.Add(this.AddPerson);
             this.Name = "Form1";
             this.Text = "対戦表表示システム";
             this.ResumeLayout(false);
@@ -77,9 +77,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button AddPerson;
+        private System.Windows.Forms.Button MakeMatch;
+        private System.Windows.Forms.Button ViewCalc;
     }
 }
 
