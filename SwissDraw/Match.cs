@@ -147,7 +147,7 @@ namespace SwissDraw
             
                 foreach (int key in splittedKeys[i])
                 {
-                    if (i key= minKey)
+                    if (key != minKey)
                     {
                         if (containsKey(matches, key) == false)
                         {
@@ -160,7 +160,6 @@ namespace SwissDraw
                             }
                         }
                     }
-                i++;
             }
             return -1;
         }
