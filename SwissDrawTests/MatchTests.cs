@@ -89,11 +89,16 @@ namespace SwissDraw.Tests
             Match[] matches1 = new Match[0];
             Match[] matches2 = new Match[1];
             matches2[0] = new Match(1, 2);
+            Match[] matches3 = new Match[2];
+            matches3[0] = new Match(1, 2);
+            matches3[1] = new Match(3, 6);
 
             var result1 = Match.GetMinimumKey(keys, matches1);
             Assert.AreEqual(1, result1);
-            var result2 = Match.GetMinimumKey(keys, matches2);
-            Assert.AreEqual(3, result2);
+            var result1_2 = Match.GetMinimumKey(keys, matches2);
+            Assert.AreEqual(3, result1_2);
+            var result1_3 = Match.GetMinimumKey(keys, matches3);
+            Assert.AreEqual(4, result1_3);
 
             int[][] keys2 = new int[2][];
             int[] key1 = { 1, 2, 4 };
@@ -131,7 +136,7 @@ namespace SwissDraw.Tests
             persons.Add(4, new Person { LotNumber = 4, PersonGroup = "B", PersonName = "遠藤" });
             persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
             persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
-                var result =  Match.isSameGroup(persons, 1, 8);
+            var result = Match.isSameGroup(persons, 1, 8);
         }
 
         [TestMethod()]
@@ -144,7 +149,7 @@ namespace SwissDraw.Tests
             winCounts.Add(4, 0);
 
             var result = Match.makePersonArray(0, winCounts);
-            Assert.AreEqual(4,result.Length);
+            Assert.AreEqual(4, result.Length);
             Assert.AreEqual(1, result[0]);
             Assert.AreEqual(2, result[1]);
             Assert.AreEqual(3, result[2]);
@@ -167,6 +172,7 @@ namespace SwissDraw.Tests
 
 
         }
+
         [TestMethod()]
         public void splitPersonsTest()
         {
@@ -181,10 +187,47 @@ namespace SwissDraw.Tests
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(6, result[0].Length);
             Assert.AreEqual(1, result[0][0]);
+            Assert.AreEqual(2, result[0][1]);
+            Assert.AreEqual(3, result[0][2]);
+            Assert.AreEqual(4, result[0][3]);
+            Assert.AreEqual(5, result[0][4]);
+            Assert.AreEqual(6, result[0][5]);
 
             Match[] matches = new Match[3];
-            matches[0] = new Match(1, 3);
+            matches[0] = new Match(1, 4);
             matches[0].Result = 1;
+            matches[1] = new Match(2, 5);
+            matches[1].Result = 1;
+            matches[2] = new Match(3, 6);
+            matches[2].Result = 1;
+            int[][] result2 = Match.splitPersons(persons, matches);
+            Assert.AreEqual(2, result2.Length);
+            Assert.AreEqual(3, result2[0].Length);
+            Assert.AreEqual(3, result2[1].Length);
+            Assert.AreEqual(1, result2[0][0]);
+            Assert.AreEqual(2, result2[0][1]);
+            Assert.AreEqual(3, result2[0][2]);
+            Assert.AreEqual(4, result2[1][0]);
+            Assert.AreEqual(5, result2[1][1]);
+            Assert.AreEqual(6, result2[1][2]);
+
+        }
+
+
+        [TestMethod()]
+        public void getVersusKey1Test()
+        {
+            Dictionary<int, Person> persons = new Dictionary<int, Person>();
+            persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "安藤" });
+            persons.Add(2, new Person { LotNumber = 2, PersonGroup = "A", PersonName = "伊藤" });
+            persons.Add(3, new Person { LotNumber = 3, PersonGroup = "A", PersonName = "有働" });
+            persons.Add(4, new Person { LotNumber = 4, PersonGroup = "B", PersonName = "遠藤" });
+            persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
+            persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
+            int[] keys = Match.GetKeyArray(persons);
+            int[][] SplittedKeys = Match.splitPersons(persons, new Match[0]);
+            var result = Match.getVersusKey1(1, SplittedKeys, new Match[0], persons, new Match[0]);
+            Assert.AreEqual(4, result);
 
 
         }
