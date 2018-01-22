@@ -147,13 +147,13 @@ namespace SwissDraw
             
                 foreach (int key in splittedKeys[i])
                 {
-                    if (i != minKey)
+                    if (i key= minKey)
                     {
-                        if (containsKey(matches, i) == false)
+                        if (containsKey(matches, key) == false)
                         {
-                            if (isMatched(results, i, minKey) == false)
+                            if (isMatched(results, key, minKey) == false)
                             {
-                                if (isSameGroup(persons, i, minKey) == false)
+                                if (isSameGroup(persons, key, minKey) == false)
                                 {
                                     return key;
                                 }
@@ -187,13 +187,13 @@ namespace SwissDraw
             {
                 foreach (int key in splittedKeys[i])
                 {
-                    if (i != minKey)
+                    if (key != minKey)
                     {
-                        if (containsKey(matches, i) == false)
+                        if (containsKey(matches, key) == false)
                         {
-                            if (isMatched(results, i, minKey) == false)
+                            if (isMatched(results, key, minKey) == false)
                             {
-                                if (isSameGroup(persons, i, minKey) == false)
+                                if (isSameGroup(persons, key, minKey) == false)
                                 {
                                     return key;
                                 }
