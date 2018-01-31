@@ -38,6 +38,37 @@ namespace SwissDraw.Tests
         }
 
         [TestMethod()]
+        public void MakeMatchTest1()
+        {
+            Dictionary<int, Person> persons = new Dictionary<int, Person>();
+            persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "安藤" });
+            persons.Add(2, new Person { LotNumber = 2, PersonGroup = "A", PersonName = "伊藤" });
+            persons.Add(3, new Person { LotNumber = 3, PersonGroup = "A", PersonName = "有働" });
+            persons.Add(4, new Person { LotNumber = 4, PersonGroup = "B", PersonName = "遠藤" });
+            persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
+            persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
+
+            //１回戦
+            Match[] matches = Match.MakeMatch(persons, new Match[0]);
+            Assert.AreEqual(3, matches.Length);
+            Assert.AreEqual(1, matches[0].Person1);
+            Assert.AreEqual(4, matches[0].Person2);
+            matches[0].Result = 1;
+            Assert.AreEqual(2, matches[1].Person1);
+            Assert.AreEqual(5, matches[1].Person2);
+            matches[1].Result = 2;
+            Assert.AreEqual(3, matches[2].Person1);
+            Assert.AreEqual(6, matches[2].Person2);
+            matches[2].Result = 1;
+
+
+            //２回戦
+            Match[] matches1 = Match.MakeMatch(persons, matches);
+            Assert.AreEqual(3, matches1.Length);
+            
+        }
+
+        [TestMethod()]
         public void MergeMatchTest()
         {
             Match[] matches1 = new Match[1];
@@ -174,7 +205,7 @@ namespace SwissDraw.Tests
         }
 
         [TestMethod()]
-        public void splitPersonsTest()
+        public void SplitPersonsTest()
         {
             Dictionary<int, Person> persons = new Dictionary<int, Person>();
             persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "安藤" });
@@ -184,6 +215,13 @@ namespace SwissDraw.Tests
             persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
             persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
             int[][] result = Match.splitPersons(persons, new Match[0]);
+            for(int i=0; i<result.Length; i++)
+            {
+                for (int j = 0; j < result[i].Length; j++)
+                {
+                    Console.Write("  {0}",result[i][j]);
+                }
+            }
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(6, result[0].Length);
             Assert.AreEqual(1, result[0][0]);
@@ -203,6 +241,7 @@ namespace SwissDraw.Tests
             int[][] result2 = Match.splitPersons(persons, matches);
             Assert.AreEqual(2, result2.Length);
             Assert.AreEqual(3, result2[0].Length);
+            Assert.IsNotNull(result2[1]);
             Assert.AreEqual(3, result2[1].Length);
             Assert.AreEqual(1, result2[0][0]);
             Assert.AreEqual(2, result2[0][1]);
@@ -212,7 +251,7 @@ namespace SwissDraw.Tests
             Assert.AreEqual(6, result2[1][2]);
 
         }
-
+        
 
         [TestMethod()]
         public void getVersusKey1Test()

@@ -67,7 +67,7 @@ namespace SwissDraw
         }
 
         // 「対戦していない」「同じチームじゃない」で対戦
-        public static Match[] MakeMatch1(int matchCount, int[][] SplittedKeys, Dictionary<int, Person> persons, Match[] results)
+        public static Match[] MakeMatch2(int matchCount, int[][] SplittedKeys, Dictionary<int, Person> persons, Match[] results)
         {
             Match[] matches = new Match[matchCount];
 
@@ -89,6 +89,7 @@ namespace SwissDraw
             }
             return matches;
         }
+        
 
         // 勝ち数の多いほうから順番に、勝ち数が同じ人のIDを配列にまとめる
         public static int[][] splitPersons(Dictionary<int, Person> persons, Match[] results)
@@ -106,13 +107,42 @@ namespace SwissDraw
                 }
             }
 
-            // TODO : NOT IMPREMENTED
-            throw new NotImplementedException();
+          
+            if (results.Length == 0)
+            {
+                int[][] result = new int[1][];
+                result[0] = keyArray;
+                return result;
 
+            }
+            else
+            {
+                //3                   6
+                int ikkainotaisensu = keyArray.Length / 2;
+                //2              3                3
+                int nannkaisen = results.Length / ikkainotaisensu + 1;
+                
+                 
+                int[][] result = new int[nannkaisen][];
+
+                int zensyo = nannkaisen - 1;
+
+                int j = 0;
+
+                for (int i = zensyo; 0 <= i; i--)
+                {
+                    
+                    result[j] = makePersonArray(i, winCountDic);
+                    j++;
+                }
+
+                return result;
+            }
+            
         }
 
         // winCountDicの中で、勝数がvの要素の配列を生成する
-        private static int[] makePersonArray(int v, Dictionary<int, int> winCountDic)
+        public static int[] makePersonArray(int v, Dictionary<int, int> winCountDic)
         {
             List<int> l
                 = new List<int>();
@@ -144,22 +174,22 @@ namespace SwissDraw
                     i++;
                 }
             }
-            
-                foreach (int key in splittedKeys[i])
+
+            foreach (int key in splittedKeys[i])
+            {
+                if (key != minKey)
                 {
-                    if (key != minKey)
+                    if (containsKey(matches, key) == false)
                     {
-                        if (containsKey(matches, key) == false)
+                        if (isMatched(results, key, minKey) == false)
                         {
-                            if (isMatched(results, key, minKey) == false)
+                            if (isSameGroup(persons, key, minKey) == false)
                             {
-                                if (isSameGroup(persons, key, minKey) == false)
-                                {
-                                    return key;
-                                }
+                                return key;
                             }
                         }
                     }
+                }
             }
             return -1;
         }
@@ -206,7 +236,7 @@ namespace SwissDraw
         }
 
         // 同じグループか調べる
-        private static bool isSameGroup(Dictionary<int, Person> persons, int i, int j)
+        public static bool isSameGroup(Dictionary<int, Person> persons, int i, int j)
         {
             String iTeam = persons[i].PersonGroup;
             String jTeam = persons[j].PersonGroup;
@@ -216,8 +246,21 @@ namespace SwissDraw
         // resultsの中に、iとjの対戦があればtrueを返す
         public static bool isMatched(Match[] results, int i, int j)
         {
-            // TODO : NOT IMPREMENTED
-            throw new NotImplementedException();
+            foreach (Match result in results)
+            {
+                if (result.person1 == i && result.person2 == j)
+                {
+                    return true;
+                }
+                else if (result.person2 == i && result.person1 == j)
+                {
+                    return true;
+                }
+                else
+                {
+                }
+            }
+            return false;
         }
 
         // mがiとjの対戦ならtrueを返す
@@ -259,7 +302,6 @@ namespace SwissDraw
         {
             if (containsKey(result, key) == true)
             {
-                int count = 0;
                 if (result.result == 1)
                 {
                     if (result.person1 == key)
@@ -281,14 +323,38 @@ namespace SwissDraw
         // 最小のくじ番号を取得する(使われていないこと)
         public static int GetMinimumKey(int[][] splittedKeys, Match[] matches)
         {
-            // TODO : NOT IMPREMENTED
-            throw new NotImplementedException();
+            int m = 1000;
+            foreach (int[] Keys in splittedKeys)
+            {
+                foreach (int Key in Keys)
+                {
+                    if (m > Key)
+                    {
+                        if (containsKey(matches, Key) == false)
+                        {
+                            m = Key;
+                        }
+                    }
+                    
+                }
+                if (m != 1000)
+                {
+                    return m;
+                }
+            }
+            return m;
         }
 
         public static bool containsKey(Match[] matches, int i)
         {
-            // TODO : NOT IMPREMENTED
-            throw new NotImplementedException();
+            foreach (Match result in matches)
+            {
+                if (!(result == null) && containsKey(result, i) == true )
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         private static bool containsKey(Match m, int i)
         {
@@ -296,6 +362,7 @@ namespace SwissDraw
             {
                 return true;
             }
+
             if (m.person2 == i)
             {
                 return true;
@@ -306,8 +373,18 @@ namespace SwissDraw
         // 2つの配列をマージして1つにする
         public static Match[] MergeMatch(Match[] results1, Match[] results2)
         {
-            // TODO : NOT IMPREMENTED
-            throw new NotImplementedException();
+            //コレクションを作成する
+            System.Collections.Generic.List<Match>
+            mergedList = new System.Collections.Generic.List<Match>(results1.Length + results2.Length);
+
+            //配列をコレクションに追加する
+            mergedList.AddRange(results1);
+            mergedList.AddRange(results2);
+
+            //配列に変換する
+            Match[] mergedArray = mergedList.ToArray();
+
+            return mergedArray;
         }
 
         // personsのkeyを取り出して配列にする
