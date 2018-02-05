@@ -38,7 +38,7 @@ namespace SwissDraw.Tests
         }
 
         [TestMethod()]
-        public void MakeMatchTest1()
+        public void MakeMatchTest61()
         {
             Dictionary<int, Person> persons = new Dictionary<int, Person>();
             persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "安藤" });
@@ -59,13 +59,95 @@ namespace SwissDraw.Tests
             matches[1].Result = 2;
             Assert.AreEqual(3, matches[2].Person1);
             Assert.AreEqual(6, matches[2].Person2);
-            matches[2].Result = 1;
+            matches[2].Result = 2;
 
 
             //２回戦
             Match[] matches1 = Match.MakeMatch(persons, matches);
             Assert.AreEqual(3, matches1.Length);
-            
+
+            Assert.AreEqual(1, matches1[0].Person1);
+            Assert.AreEqual(5, matches1[0].Person2);
+            matches1[0].Result = 1;
+            Assert.AreEqual(2, matches1[1].Person1);
+            Assert.AreEqual(6, matches1[1].Person2);
+            matches1[1].Result = 2;
+            Assert.AreEqual(3, matches1[2].Person1);
+            Assert.AreEqual(4, matches1[2].Person2);
+            matches1[2].Result = 1;
+
+            Match[] merge = Match.MergeMatch(matches, matches1);
+
+            //３回戦
+            Match[] matches2 = Match.MakeMatch(persons, merge);
+            Assert.AreEqual(3, matches2.Length);
+
+            Assert.AreEqual(1, matches2[0].Person1);
+            Assert.AreEqual(6, matches2[0].Person2);
+
+            Assert.AreEqual(3, matches2[1].Person1);
+            Assert.AreEqual(5, matches2[1].Person2);
+
+            Assert.AreEqual(2, matches2[2].Person1);
+            Assert.AreEqual(4, matches2[2].Person2);
+
+        }
+
+        [TestMethod()]
+        public void MakeMatchTest62()
+        {
+            Dictionary<int, Person> persons = new Dictionary<int, Person>();
+            persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "安藤" });
+            persons.Add(2, new Person { LotNumber = 2, PersonGroup = "A", PersonName = "伊藤" });
+            persons.Add(3, new Person { LotNumber = 3, PersonGroup = "A", PersonName = "有働" });
+            persons.Add(4, new Person { LotNumber = 4, PersonGroup = "B", PersonName = "遠藤" });
+            persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
+            persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
+
+            //１回戦
+            Match[] matches = Match.MakeMatch(persons, new Match[0]);
+            Assert.AreEqual(3, matches.Length);
+            Assert.AreEqual(1, matches[0].Person1);
+            Assert.AreEqual(4, matches[0].Person2);
+            matches[0].Result = 1;
+            Assert.AreEqual(2, matches[1].Person1);
+            Assert.AreEqual(5, matches[1].Person2);
+            matches[1].Result = 2;
+            Assert.AreEqual(3, matches[2].Person1);
+            Assert.AreEqual(6, matches[2].Person2);
+            matches[2].Result = 2;
+
+
+            //２回戦
+            Match[] matches1 = Match.MakeMatch(persons, matches);
+            Assert.AreEqual(3, matches1.Length);
+
+            Assert.AreEqual(1, matches1[0].Person1);
+            Assert.AreEqual(5, matches1[0].Person2);
+            matches1[0].Result = 2;
+            Assert.AreEqual(2, matches1[1].Person1);
+            Assert.AreEqual(6, matches1[1].Person2);
+            matches1[1].Result = 1;
+            Assert.AreEqual(3, matches1[2].Person1);
+            Assert.AreEqual(4, matches1[2].Person2);
+            matches1[2].Result = 1;
+
+            Match[] merge = Match.MergeMatch(matches, matches1);
+
+            //３回戦
+            Match[] matches2 = Match.MakeMatch(persons, merge);
+
+            Assert.AreEqual(3, matches2.Length);
+
+            Assert.AreEqual(3, matches2[0].Person1);
+            Assert.AreEqual(5, matches2[0].Person2);
+
+            Assert.AreEqual(1, matches2[1].Person1);
+            Assert.AreEqual(6, matches2[1].Person2);
+
+            Assert.AreEqual(2, matches2[2].Person1);
+            Assert.AreEqual(4, matches2[2].Person2);
+
         }
 
         [TestMethod()]
@@ -215,11 +297,11 @@ namespace SwissDraw.Tests
             persons.Add(5, new Person { LotNumber = 5, PersonGroup = "B", PersonName = "尾堂" });
             persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "加藤" });
             int[][] result = Match.splitPersons(persons, new Match[0]);
-            for(int i=0; i<result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 for (int j = 0; j < result[i].Length; j++)
                 {
-                    Console.Write("  {0}",result[i][j]);
+                    Console.Write("  {0}", result[i][j]);
                 }
             }
             Assert.AreEqual(1, result.Length);
@@ -251,7 +333,7 @@ namespace SwissDraw.Tests
             Assert.AreEqual(6, result2[1][2]);
 
         }
-        
+
 
         [TestMethod()]
         public void getVersusKey1Test()
@@ -270,5 +352,191 @@ namespace SwissDraw.Tests
 
 
         }
+
+        [TestMethod()]
+        public void irekae()
+        {
+            int a = 10;
+            int b = 2;
+
+            bool answer = Match.irekae(a, b);
+
+            Assert.AreEqual(true, answer);
+        }
+
+        [TestMethod()]
+        public void MakeMatchTest101()
+        {
+
+            Dictionary<int, Person> persons = new Dictionary<int, Person>();
+
+            persons.Add(1, new Person { LotNumber = 1, PersonGroup = "A", PersonName = "あ" });
+
+            persons.Add(2, new Person { LotNumber = 2, PersonGroup = "A", PersonName = "い" });
+
+            persons.Add(3, new Person { LotNumber = 3, PersonGroup = "B", PersonName = "う" });
+
+            persons.Add(4, new Person { LotNumber = 4, PersonGroup = "B", PersonName = "え" });
+
+            persons.Add(5, new Person { LotNumber = 5, PersonGroup = "C", PersonName = "お" });
+
+            persons.Add(6, new Person { LotNumber = 6, PersonGroup = "C", PersonName = "か" });
+
+            persons.Add(7, new Person { LotNumber = 7, PersonGroup = "D", PersonName = "き" });
+
+            persons.Add(8, new Person { LotNumber = 8, PersonGroup = "D", PersonName = "く" });
+
+            persons.Add(9, new Person { LotNumber = 9, PersonGroup = "E", PersonName = "け" });
+
+            persons.Add(10, new Person { LotNumber = 10, PersonGroup = "E", PersonName = "こ" });
+
+            persons.Add(11, new Person { LotNumber = 11, PersonGroup = "F", PersonName = "さ" });
+
+            persons.Add(12, new Person { LotNumber = 12, PersonGroup = "F", PersonName = "し" });
+
+            persons.Add(13, new Person { LotNumber = 13, PersonGroup = "G", PersonName = "す" });
+
+            persons.Add(14, new Person { LotNumber = 14, PersonGroup = "G", PersonName = "せ" });
+
+            persons.Add(15, new Person { LotNumber = 15, PersonGroup = "H", PersonName = "そ" });
+
+            persons.Add(16, new Person { LotNumber = 16, PersonGroup = "H", PersonName = "た" });
+
+            persons.Add(17, new Person { LotNumber = 17, PersonGroup = "I", PersonName = "ち" });
+
+            persons.Add(18, new Person { LotNumber = 18, PersonGroup = "I", PersonName = "つ" });
+
+            persons.Add(19, new Person { LotNumber = 19, PersonGroup = "J", PersonName = "て" });
+
+            persons.Add(20, new Person { LotNumber = 20, PersonGroup = "J", PersonName = "と" });
+
+
+
+            Match[] matches = Match.MakeMatch(persons, new Match[0]);
+
+            Assert.AreEqual(10, matches.Length);
+
+            Assert.AreEqual(1, matches[0].Person1);
+            Assert.AreEqual(3, matches[0].Person2);
+            matches[0].Result = 1;
+
+            Assert.AreEqual(2, matches[1].Person1);
+            Assert.AreEqual(4, matches[1].Person2);
+            matches[1].Result = 1;
+
+
+            Assert.AreEqual(5, matches[2].Person1);
+            Assert.AreEqual(7, matches[2].Person2);
+            matches[2].Result = 1;
+
+            Assert.AreEqual(6, matches[3].Person1);
+            Assert.AreEqual(8, matches[3].Person2);
+            matches[3].Result = 1;
+
+            Assert.AreEqual(9, matches[4].Person1);
+            Assert.AreEqual(11, matches[4].Person2);
+            matches[4].Result = 1;
+
+            Assert.AreEqual(10, matches[5].Person1);
+            Assert.AreEqual(12, matches[5].Person2);
+            matches[5].Result = 1;
+
+            Assert.AreEqual(13, matches[6].Person1);
+            Assert.AreEqual(15, matches[6].Person2);
+            matches[6].Result = 1;
+
+            Assert.AreEqual(14, matches[7].Person1);
+            Assert.AreEqual(16, matches[7].Person2);
+            matches[7].Result = 1;
+
+            Assert.AreEqual(17, matches[8].Person1);
+            Assert.AreEqual(19, matches[8].Person2);
+            matches[8].Result = 1;
+
+            Assert.AreEqual(18, matches[9].Person1);
+            Assert.AreEqual(20, matches[9].Person2);
+            matches[9].Result = 1;
+
+            Match[] matches1 = Match.MakeMatch(persons, matches);
+
+            Assert.AreEqual(10, matches1.Length);
+
+            Assert.AreEqual(1, matches1[0].Person1);
+            Assert.AreEqual(5, matches1[0].Person2);
+            matches1[0].Result = 1;
+
+            Assert.AreEqual(2, matches1[1].Person1);
+            Assert.AreEqual(6, matches1[1].Person2);
+            matches1[1].Result = 1;
+
+            Assert.AreEqual(9, matches1[2].Person1);
+            Assert.AreEqual(13, matches1[2].Person2);
+            matches1[2].Result = 1;
+
+            Assert.AreEqual(10, matches1[3].Person1);
+            Assert.AreEqual(14, matches1[3].Person2);
+            matches1[3].Result = 1;
+
+            Assert.AreEqual(3, matches1[4].Person1);
+            Assert.AreEqual(17, matches1[4].Person2);
+            matches1[4].Result = 2;
+
+            Assert.AreEqual(4, matches1[5].Person1);
+            Assert.AreEqual(18, matches1[5].Person2);
+            matches1[5].Result = 2;
+
+            Assert.AreEqual(7, matches1[6].Person1);
+            Assert.AreEqual(11, matches1[6].Person2);
+            matches1[6].Result = 1;
+
+            Assert.AreEqual(8, matches1[7].Person1);
+            Assert.AreEqual(12, matches1[7].Person2);
+            matches1[7].Result = 1;
+
+            Assert.AreEqual(15, matches1[8].Person1);
+            Assert.AreEqual(19, matches1[8].Person2);
+            matches1[8].Result = 1;
+
+            Assert.AreEqual(16, matches1[9].Person1);
+            Assert.AreEqual(20, matches1[9].Person2);
+            matches1[9].Result = 1;
+
+            matches = Match.MergeMatch(matches, matches1);
+
+            Match[] matches2 = Match.MakeMatch(persons, matches);
+
+            Assert.AreEqual(10, matches2.Length);
+
+            Assert.AreEqual(1, matches2[0].Person1);
+            Assert.AreEqual(9, matches2[0].Person2);
+
+            Assert.AreEqual(2, matches2[1].Person1);
+            Assert.AreEqual(10, matches2[1].Person2);
+
+            Assert.AreEqual(5, matches2[2].Person1);
+            Assert.AreEqual(17, matches2[2].Person2);
+
+            Assert.AreEqual(6, matches2[3].Person1);
+            Assert.AreEqual(18, matches2[3].Person2);
+
+            Assert.AreEqual(7, matches2[4].Person1);
+            Assert.AreEqual(13, matches2[4].Person2);
+
+            Assert.AreEqual(8, matches2[5].Person1);
+            Assert.AreEqual(14, matches2[5].Person2);
+
+            Assert.AreEqual(3, matches2[6].Person1);
+            Assert.AreEqual(15, matches2[6].Person2);
+
+            Assert.AreEqual(4, matches2[7].Person1);
+            Assert.AreEqual(16, matches2[7].Person2);
+
+            Assert.AreEqual(11, matches2[8].Person1);
+            Assert.AreEqual(19, matches2[8].Person2);
+
+            Assert.AreEqual(12, matches2[9].Person1);
+            Assert.AreEqual(20, matches2[9].Person2);
+        }
+
     }
 }

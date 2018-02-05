@@ -51,6 +51,7 @@
     <Compile Include="AddPersonForm.Designer.cs">
       <DependentUpon>AddPersonForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Score.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

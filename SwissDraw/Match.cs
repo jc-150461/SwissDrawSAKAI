@@ -38,6 +38,11 @@ namespace SwissDraw
 
             Match[] matches = MakeMatch1(matchCount, SplittedKeys, persons, results);
 
+            if (matches == null)
+            {
+                matches = MakeMatch2(matchCount, SplittedKeys, persons, results);
+            }
+
             return matches;
         }
 
@@ -59,6 +64,14 @@ namespace SwissDraw
                 if (versusKey < 0)
                 {
                     return null;
+                }
+                int w;
+
+                if (irekae(minKey, versusKey) == true)
+                {
+                    w = minKey;
+                    minKey = versusKey;
+                    versusKey = w;
                 }
                 //対戦を保存する
                 matches[i] = new Match(minKey, versusKey);
@@ -84,12 +97,21 @@ namespace SwissDraw
                 {
                     return null;
                 }
+
+                int w;
+
+                if(irekae(minKey, versusKey) == true)
+                {
+                    w = minKey;
+                    minKey = versusKey;
+                    versusKey = w;
+                }
                 //対戦を保存する
                 matches[i] = new Match(minKey, versusKey);
             }
             return matches;
         }
-        
+
 
         // 勝ち数の多いほうから順番に、勝ち数が同じ人のIDを配列にまとめる
         public static int[][] splitPersons(Dictionary<int, Person> persons, Match[] results)
@@ -107,7 +129,7 @@ namespace SwissDraw
                 }
             }
 
-          
+
             if (results.Length == 0)
             {
                 int[][] result = new int[1][];
@@ -121,8 +143,8 @@ namespace SwissDraw
                 int ikkainotaisensu = keyArray.Length / 2;
                 //2              3                3
                 int nannkaisen = results.Length / ikkainotaisensu + 1;
-                
-                 
+
+
                 int[][] result = new int[nannkaisen][];
 
                 int zensyo = nannkaisen - 1;
@@ -131,14 +153,14 @@ namespace SwissDraw
 
                 for (int i = zensyo; 0 <= i; i--)
                 {
-                    
+
                     result[j] = makePersonArray(i, winCountDic);
                     j++;
                 }
 
                 return result;
             }
-            
+
         }
 
         // winCountDicの中で、勝数がvの要素の配列を生成する
@@ -335,7 +357,7 @@ namespace SwissDraw
                             m = Key;
                         }
                     }
-                    
+
                 }
                 if (m != 1000)
                 {
@@ -349,7 +371,7 @@ namespace SwissDraw
         {
             foreach (Match result in matches)
             {
-                if (!(result == null) && containsKey(result, i) == true )
+                if (containsKey(result, i) == true)
                 {
                     return true;
                 }
@@ -358,6 +380,10 @@ namespace SwissDraw
         }
         private static bool containsKey(Match m, int i)
         {
+            if (m == null)
+            {
+                return false;
+            }
             if (m.person1 == i)
             {
                 return true;
@@ -393,5 +419,19 @@ namespace SwissDraw
             return persons.Keys.ToArray();
         }
 
+        //Person1側に数が小さいほうが来る
+        public static bool irekae(int a, int b)
+        {
+            if (a > b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+                
+
+        }
     }
 }
