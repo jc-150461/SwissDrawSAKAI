@@ -89,5 +89,99 @@ namespace SwissDraw.Tests
 
 
         }
+
+        [TestMethod()]
+        public void CalcScoreTest2()
+        {
+            Match[] result2 = new Match[10];
+            result2[0] = new Match(1, 3);
+            result2[0].Result = 1;
+            result2[1] = new Match(2, 4);
+            result2[1].Result = 1;
+            result2[2] = new Match(5, 7);
+            result2[2].Result = 1;
+            result2[3] = new Match(6, 8);
+            result2[3].Result = 1;
+            result2[4] = new Match(9, 11);
+            result2[4].Result = 1;
+            result2[5] = new Match(10, 12);
+            result2[5].Result = 1;
+            result2[6] = new Match(13, 15);
+            result2[6].Result = 1;
+            result2[7] = new Match(14, 16);
+            result2[7].Result = 1;
+            result2[8] = new Match(17, 19);
+            result2[8].Result = 1;
+            result2[9] = new Match(18, 20);
+            result2[9].Result = 1;
+
+            Match[] result3 = new Match[10];
+            result3[0] = new Match(1, 5);
+            result3[0].Result = 1;
+            result3[1] = new Match(2, 6);
+            result3[1].Result = 1;
+            result3[2] = new Match(9, 13);
+            result3[2].Result = 1;
+            result3[3] = new Match(10, 14);
+            result3[3].Result = 1;
+            result3[4] = new Match(3, 17);
+            result3[4].Result = 2;
+            result3[5] = new Match(4, 18);
+            result3[5].Result = 2;
+            result3[6] = new Match(7, 11);
+            result3[6].Result = 1;
+            result3[7] = new Match(8, 12);
+            result3[7].Result = 1;
+            result3[8] = new Match(15, 19);
+            result3[8].Result = 1;
+            result3[9] = new Match(16, 20);
+            result3[9].Result = 1;
+
+            Match[] result = Match.MergeMatch(result2, result3);
+
+            var score2 = Score.CalcScore(result);
+            Assert.AreEqual(2, score2[1].winCount);
+            Assert.AreEqual(2, score2[2].winCount);
+            Assert.AreEqual(0, score2[3].winCount);
+            Assert.AreEqual(0, score2[4].winCount);
+            Assert.AreEqual(1, score2[5].winCount);
+            Assert.AreEqual(1, score2[6].winCount);
+            Assert.AreEqual(1, score2[7].winCount);
+            Assert.AreEqual(1, score2[8].winCount);
+            Assert.AreEqual(2, score2[9].winCount);
+            Assert.AreEqual(2, score2[10].winCount);
+            Assert.AreEqual(0, score2[11].winCount);
+            Assert.AreEqual(0, score2[12].winCount);
+            Assert.AreEqual(1, score2[13].winCount);
+            Assert.AreEqual(1, score2[14].winCount);
+            Assert.AreEqual(1, score2[15].winCount);
+            Assert.AreEqual(1, score2[16].winCount);
+            Assert.AreEqual(2, score2[17].winCount);
+            Assert.AreEqual(2, score2[18].winCount);
+            Assert.AreEqual(0, score2[19].winCount);
+            Assert.AreEqual(0, score2[20].winCount);
+
+            Assert.AreEqual(1, score2[1].score);   
+            Assert.AreEqual(1, score2[2].score);      
+            Assert.AreEqual(0, score2[3].score);      
+            Assert.AreEqual(0, score2[4].score);    
+            Assert.AreEqual(1, score2[5].score);
+            Assert.AreEqual(1, score2[6].score);
+            Assert.AreEqual(0, score2[7].score);
+            Assert.AreEqual(0, score2[8].score);
+            Assert.AreEqual(1, score2[9].score);
+            Assert.AreEqual(1, score2[10].score);
+            Assert.AreEqual(0, score2[11].score);
+            Assert.AreEqual(0, score2[12].score);
+            Assert.AreEqual(1, score2[13].score);
+            Assert.AreEqual(1, score2[14].score);
+            Assert.AreEqual(0, score2[15].score);
+            Assert.AreEqual(0, score2[16].score);
+            Assert.AreEqual(0, score2[17].score);
+            Assert.AreEqual(0, score2[18].score);
+            Assert.AreEqual(0, score2[19].score);
+            Assert.AreEqual(0, score2[20].score);
+
+        }
     }
 }
